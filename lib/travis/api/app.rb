@@ -152,7 +152,7 @@ module Travis::Api
         if Travis.env == 'production' and not console?
           Raven.configure do |config|
             config.dsn = Travis.config.sentry.dsn
-          end if Travis.config.sentry
+          end if Travis.config.sentry.dsn
 
           Travis::LogSubscriber::ActiveRecordMetrics.attach
           Travis::Notification.setup
