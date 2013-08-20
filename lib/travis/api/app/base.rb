@@ -8,9 +8,11 @@ class Travis::Api::App
     register Extensions::SmartConstants
 
     configure :production do
-      require 'newrelic_rpm'
-      ::NewRelic::Agent.manual_start()
-      ::NewRelic::Agent.after_fork(:force_reconnect => true)
+      if File.exists?('config/newrelic.yml')
+        require 'newrelic_rpm' 
+        ::NewRelic::Agent.manual_start()
+        ::NewRelic::Agent.after_fork(:force_reconnect => true)
+      end
     end
 
     error NotImplementedError do
