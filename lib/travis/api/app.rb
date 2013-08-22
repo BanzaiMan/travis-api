@@ -83,7 +83,7 @@ module Travis::Api
         end
 
         use Travis::Api::App::Cors if Travis.env == 'development'
-        use Raven::Rack if Endpoint.production?
+        use Raven::Rack if Endpoint.production? && Travis.config.sentry.dsn
         use Rack::Protection::PathTraversal
         use Rack::SSL if Endpoint.production?
         use ActiveRecord::ConnectionAdapters::ConnectionManagement
