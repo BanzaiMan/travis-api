@@ -3,8 +3,8 @@ ruby '1.9.3' rescue nil
 source 'https://rubygems.org'
 gemspec
 
-gem 'travis-core',     github: 'travis-ci/travis-core'
-gem 'travis-support',  github: 'travis-ci/travis-support'
+gem 'travis-core',     github: 'travis-ci/travis-core', branch: 'sf-te'
+gem 'travis-support',  github: 'travis-ci/travis-support', branch: 'sf-te'
 gem 'travis-sidekiqs', github: 'travis-ci/travis-sidekiqs', require: nil, ref: 'cde9741'
 gem 'sinatra'
 gem 'sinatra-contrib', require: nil #github: 'sinatra/sinatra-contrib', require: nil
