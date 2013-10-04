@@ -15,7 +15,7 @@ class Travis::Api::App
 
       get '/:job_id/log' do
         resource = service(:find_log, params).run
-        if !resource || resource.archived?
+        if (!resource || resource.archived?) && !disable_s3_redirection?
           archived_log_path = archive_url("/jobs/#{params[:job_id]}/log.txt")
 
           if params[:cors_hax]
@@ -28,6 +28,10 @@ class Travis::Api::App
         else
           respond_with resource
         end
+      end
+
+      def disable_s3_redirection?
+        Travis.config.logs && Travis.config.logs.disable_s3_redirection
       end
 
       def archive_url(path)

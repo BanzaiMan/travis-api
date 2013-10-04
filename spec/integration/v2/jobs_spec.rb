@@ -31,6 +31,23 @@ describe 'Jobs' do
         response = get "/jobs/#{job.id}/log.txt", {}, headers
         response.should redirect_to("https://s3.amazonaws.com/archive.travis-ci.org/jobs/#{job.id}/log.txt")
       end
+
+      context 'when s3 redirection is disabled' do
+        before {
+          Travis.config.logs ||= {}
+          Travis.config.logs.disable_s3_redirection = true
+        }
+
+        after {
+          Travis.config.logs.disable_s3_redirection = false
+        }
+
+        it 'returns a log for a job' do
+          job.log.update_attributes!(content: 'the log', archived_at: Time.now, archive_verified: true)
+          response = get "/jobs/#{job.id}/log.txt", {}, headers
+          response.should deliver_as_txt('the log', version: 'v2')
+        end
+      end
     end
 
     context 'when log is missing' do
